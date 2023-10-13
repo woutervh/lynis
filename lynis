@@ -73,8 +73,10 @@
     # Check setuid bit
     if [ -u "$0" ]; then echo "The called binary has the set-user-id bit - As this is unusual, execution will be stopped."; exit 1; fi
 
-    # Work directory
-    WORKDIR=$(pwd)
+    # Work directory - support symlinks to lynis from another PWD
+    # WORKDIR=$(pwd)
+    WORKDIR=$(readlink -f $(dirname $(readlink -f $0)))
+
 
     # Test from which directories we can use all functions and tests
     USE_CWD=0
